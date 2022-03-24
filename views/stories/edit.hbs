@@ -1,0 +1,66 @@
+<h3>Edit Laporan</h3>
+<div class="row">
+    <form action="/stories/{{story._id}}" method="POST" class="col s12">
+        <input type="hidden" name="_method" value="PUT">
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="idReport" value="{{story.idReport}}" disabled>
+                <label for="title">ID Laporan</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="fullName" value="{{story.fullName}}" disabled>
+                <label for="title">Nama Lengkap</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="phoneNumber" value="{{story.phoneNumber}}" disabled>
+                <label for="title">Nomor HP</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="address" value="{{story.address}}" disabled>
+                <label for="title">Alamat</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="reports" value="{{story.reports}}" disabled>
+                <label for="title">Laporan</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="reportStatus">
+                    {{#select story.reportStatus}}
+                    <option value="Belum diproses" selected>Belum diproses</option>
+                    <option value="Sedang diproses">Sedang diproses</option>
+                    <option value="Selesai">Selesai</option>
+                    {{/select}}
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="additional" value="{{story.additional}}">
+                <label for="title">Komentar tambahan</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/dashboard" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>

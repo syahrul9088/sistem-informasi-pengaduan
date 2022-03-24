@@ -1,0 +1,49 @@
+<h6>Dashboard</h6>
+<h3>Welcome {{name}}</h3>
+<p>Kelola laporan Masyarakat</p>
+{{#if stories}}
+<table class="striped">
+    
+    <thead>
+        <tr>
+            <th>ID Laporan</th>
+            <th>Status</th>
+            <th>Nama Lengkap</th>
+            {{!-- <th>Nomor HP</th>
+            <th>Alamat</th> --}}
+            <th>Laporan</th>
+            <th>Komentar tambahan</th>
+            <th>Tanggal Laporan</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each stories}}
+        <tr>
+            <td>{{idReport}}</a></td>
+            <td>{{reportStatus}}</a></td>
+            <td>{{fullName}}</a></td>
+            {{!-- <td>{{phoneNumber}}</td>
+            <td>{{address}}</td> --}}
+            <td>{{reports}}</td>
+            <td>{{additional}}</td>
+            <td>{{createdAt}}</td>
+            <td>
+                <a href="/stories/edit/{{_id}}" class="btn btn-float">
+                    <i class="fas fa-edit"></i>
+                </a>
+
+                <form action="/stories/{{_id}}" method="POST" id="delete-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn red">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>Tidak ada laporan</p>
+{{/if}}
