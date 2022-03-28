@@ -15,6 +15,13 @@ router.get('/add', ensureAuth, (req, res) => {
 router.post('/', ensureAuth, async (req, res) => {
   try {
     await Story.create(req.body)
+
+    req.session.message = {
+      type: 'success',
+      intro: '',
+      message: 'Data berhasil ditambah!'
+    }
+
     res.redirect('/dashboard')
   } catch (err) {
     console.error(err)
@@ -56,9 +63,15 @@ router.put('/:id', ensureAuth, async (req, res) => {
         new: true,
         runValidators: true,
       })
+
+      req.session.message = {
+        type: 'success',
+        intro: '',
+        message: 'Data berhasil diubah!'
+      }
+      res.redirect('/dashboard')
     }
 
-      res.redirect('/dashboard')
   } catch (err) {
     console.error(err)
     return res.render('error/500')
@@ -75,6 +88,11 @@ router.delete('/:id', ensureAuth, async (req, res) => {
       return res.render('error/404')
     } else {
       await Story.remove({ _id: req.params.id })
+      req.session.message = {
+        type: 'success',
+        intro: '',
+        message: 'Data berhasil dihapus!'
+      }
       res.redirect('/dashboard')
     }
   } catch (err) {

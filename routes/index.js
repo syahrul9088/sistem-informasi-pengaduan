@@ -4,9 +4,9 @@ const { ensureAuth, ensureGuest } = require('../middleware/auth')
 
 const Story = require('../models/Story')
 
-router.get('/signup', ensureGuest, (req, res) => {
+router.get('/signup', ensureGuest, async(req, res) => {
   res.render('signup', {
-    layout: 'signup',
+    layout: 'signup'
   })
 })
 

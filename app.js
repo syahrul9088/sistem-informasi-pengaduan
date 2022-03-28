@@ -2,6 +2,8 @@ const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
@@ -21,8 +23,9 @@ connectDB()
 const app = express()
 
 // Body parser
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
+app.use(cookieParser('secret'))
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
 // Method override
 app.use(
@@ -70,6 +73,7 @@ app.set('view engine', '.hbs')
 // Sessions
 app.use(
   session({
+    cookie: {maxAge: null},
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
@@ -87,6 +91,11 @@ app.use(function (req, res, next) {
   next()
 })
 
+app.use((req, res, next)=>{
+  res.locals.message = req.session.message
+  delete req.session.message
+  next()
+})
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')))
 

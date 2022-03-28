@@ -9,6 +9,14 @@ router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
 
 // @desc    Google auth callback
 // @route   GET /auth/google/callback
+
+// router.post('/', passport.authenticate('local', {
+  
+  
+// 	// successRedirect: '/',
+// 	// failureRedirect: '/signup?error=true'
+// }));
+
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
@@ -22,21 +30,18 @@ router.get(
 //   const password = req.body.password
 
 //   const checkUser = await User.findOne({
-//     username: username
+//     email: username
 //   })
+
+//   console.log(checkUser)
 
 //   if(!checkUser){
 //     res.render('login', {
 //       layout: 'login',
 //     })
 //   } else {
-//     passport.authenticate('local', { failureRedirect: '/' }),
-//     (req, res) => {
-//       res.redirect('/dashboard')
-//     }
+   
 //   }
-
-//   // if(email)
 // })
 
 // @desc    Logout user
