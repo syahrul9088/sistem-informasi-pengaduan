@@ -1,44 +1,58 @@
 const express = require('express')
 const router = express.Router()
+const bcrypt = require('bcryptjs');
 const UserSignUp = require('../models/User')
 
 router.post('/', async (req, res) => {
     try {
-        const email = req.body.email
-        const password = req.body.password
-        const confirmPassword = req.body.confirmPassword
-        const fullName = req.body.fullName
+        const {email, phoneNumber, password, confirmPassword, fullName} = req.body
 
         const isRegister = await UserSignUp.findOne({
-            email: email,
+            email: email
         }).lean()
 
-        if(email == '' || password == '' || fullName == '' || confirmPassword == ''){
+        const phoneCheck = await UserSignUp.findOne({
+            phoneNumber: phoneNumber
+        }).lean()
+
+        if(!email || !password || !fullName || !confirmPassword || !phoneNumber){
             req.session.message = {
                 type: 'danger',
-                intro: 'Form kosong!',
+                status: 'Gagal, ',
                 message: 'Tolong isi form dengan benar'
             }
             res.redirect('/signup')
         } else if(password != confirmPassword){
             req.session.message = {
                 type: 'danger',
-                intro: 'Password tidak sama!',
+                status: 'Gagal, ',
                 message: 'Tolong isi password dengan benar'
             }
             res.redirect('/signup')
         } else if(isRegister){
             req.session.message = {
                 type: 'danger',
-                intro: 'Email',
-                message: 'sudah terdaftar'
+                status: 'Gagal, ',
+                message: 'Email sudah terdaftar'
+            }
+            res.redirect('/signup')
+        } else if(phoneCheck){ 
+            req.session.message = {
+                type: 'danger',
+                status: 'Gagal, ',
+                message: 'Nomor HP sudah terdaftar'
             }
             res.redirect('/signup')
         } else {
-            await UserSignUp.create({email, password, fullName})
+            const saltRounds = 10;
+            const myPlaintextPassword = password;
+            const salt = bcrypt.genSaltSync(saltRounds);
+            const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+
+            await UserSignUp.create({email: email, phoneNumber: phoneNumber, password: hash, fullName: fullName})
             req.session.message = {
                 type: 'success',
-                intro: 'Berhasil mendaftar!',
+                status: 'Berhasil, ',
                 message: 'Silakan login.'
             }
             res.redirect('/signup')
@@ -48,7 +62,7 @@ router.post('/', async (req, res) => {
         console.error(err)
         req.session.message = {
             type: 'danger',
-            intro: 'Error!',
+            intro: 'Error!, ',
             message: 'Upps ada yang error'
         }
         res.render('/signup')

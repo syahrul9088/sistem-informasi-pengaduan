@@ -101,6 +101,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Routes
 app.use('/', require('./routes/index'))
+// app.use('/setting', require('./routes/index'))
 app.use('/signup', require('./routes/signup'))
 app.use('/auth', require('./routes/auth'))
 app.use('/stories', require('./routes/stories'))

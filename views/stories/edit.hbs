@@ -1,66 +1,72 @@
-<h3>Edit Laporan</h3>
-<div class="row">
-    <form action="/stories/{{story._id}}" method="POST" class="col s12">
-        <input type="hidden" name="_method" value="PUT">
-
-        <div class="row">
-            <div class="input-field">
-                <input type="text" id="title" name="idReport" value="{{story.idReport}}" disabled>
-                <label for="title">ID Laporan</label>
+    <form action="/stories/{{story._id}}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <div class="container-fluid py-3">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header pb-0">
+              {{!-- <div class="d-flex align-items-center">
+                <a class="btn btn-primary btn-sm ms-auto" href="/dashboard">Batal</a>
+                <button type="submit" class="btn btn-primary btn-sm ms-auto">Edit</button>
+              </div> --}}
             </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <input type="text" id="title" name="fullName" value="{{story.fullName}}" disabled>
-                <label for="title">Nama Lengkap</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <input type="text" id="title" name="phoneNumber" value="{{story.phoneNumber}}" disabled>
-                <label for="title">Nomor HP</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <input type="text" id="title" name="address" value="{{story.address}}" disabled>
-                <label for="title">Alamat</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <input type="text" id="title" name="reports" value="{{story.reports}}" disabled>
-                <label for="title">Laporan</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <select id="status" name="reportStatus">
+            <div class="card-body">
+              <p class="text-uppercase text-sm">Edit Laporan</p>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">ID Laporan</label>
+                    <input class="form-control" type="text" name="idReport" value="{{story.idReport}}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Nama Lengkap</label>
+                    <input class="form-control" type="text" name="fullName" value="{{story.fullName}}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Nomor HP</label>
+                    <input class="form-control" type="text" name="phoneNumber" value="{{story.phoneNumber}}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Alamat</label>
+                    <input class="form-control" type="text" name="address" value="{{story.address}}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Laporan</label>
+                    <input class="form-control" type="text" name="reports" value="{{story.reports}}" disabled>
+                  </div>
+                </div>
+               <div class="col-md-6">
+                    <label for="exampleFormControlSelect1">Status</label>
+                    <select class="form-control" id="status" name="reportStatus">
                     {{#select story.reportStatus}}
                     <option value="Belum diproses" selected>Belum diproses</option>
                     <option value="Sedang diproses">Sedang diproses</option>
                     <option value="Selesai">Selesai</option>
                     {{/select}}
-                </select>
-                <label for="status">Status</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="input-field">
-                <input type="text" id="title" name="additional" value="{{story.additional}}">
-                <label for="title">Komentar tambahan</label>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Komentar tambahan</label>
+                    <input class="form-control" type="text" name="additional" value="{{story.additional}}">
+                  </div>
+                </div>
+                <div class="text-center">
+                    <button href="/dashboard" class="btn btn-danger btn-sm ms-auto">Batal</button>
+                    <button type="submit" class="btn btn-primary btn-sm ms-auto">Edit</button>
+                </div>
+              </div>
             </div>
           </div>
-
-        <div class="row">
-            <input type="submit" value="Save" class="btn">
-            <a href="/dashboard" class="btn orange">Cancel</a>
         </div>
+      </div>
+    </div>
     </form>
-</div>

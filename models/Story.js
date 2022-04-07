@@ -5,7 +5,6 @@ const setDate = new Date((new Date).toLocaleString("en-US", {
   timeZone: "Asia/Jakarta"
 }));
 
-
 const StorySchema = new mongoose.Schema({
   fullName: {
     type: String,

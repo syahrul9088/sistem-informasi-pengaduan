@@ -1,54 +1,112 @@
-<h6>Dashboard</h6>
-<h3>Welcome {{name}}</h3>
-<p>Kelola laporan Masyarakat</p>
-{{#if stories}}
-<table class="striped">
-    {{#if message}}
-    <div style="text-align: center" class="alert alert-{{message.type}}">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>{{message.intro}}</strong> {{message.message}}
+<!-- Navbar -->
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-3">
     </div>
-    {{/if}}
-    <thead>
-        <tr>
-            <th>ID Laporan</th>
-            <th>Status</th>
-            <th>Nama Lengkap</th>
-            {{!-- <th>Nomor HP</th>
-            <th>Alamat</th> --}}
-            <th>Laporan</th>
-            <th>Komentar tambahan</th>
-            <th>Tanggal Laporan</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each stories}}
-        <tr>
-            <td>{{idReport}}</a></td>
-            <td>{{reportStatus}}</a></td>
-            <td>{{fullName}}</a></td>
-            {{!-- <td>{{phoneNumber}}</td>
-            <td>{{address}}</td> --}}
-            <td>{{reports}}</td>
-            <td>{{additional}}</td>
-            <td>{{createdAt}}</td>
-            <td>
-                <a href="/stories/edit/{{_id}}" class="btn btn-float">
-                    <i class="fas fa-edit"></i>
-                </a>
-
-                <form action="/stories/{{_id}}" method="POST" id="delete-form">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn red">
-                        <i class="fas fa-trash"></i>
+</nav>
+<!-- End Navbar -->
+<div class="container-fluid py-7">
+    <div class="row justify-content-center">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+        <div class="card-body p-3">
+            <div class="row">
+            <div class="col-8">
+                <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah Laporan</p>
+                <h5 class="font-weight-bolder">
+                    {{reportCount}}
+                </h5>
+                </div>
+            </div>
+            <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                <i class="ni ni-box-2 text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+        <div class="card-body p-3">
+            <div class="row">
+            <div class="col-8">
+                <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah Admin</p>
+                <h5 class="font-weight-bolder">
+                    {{userCount}}
+                </h5>
+                </div>
+            </div>
+            <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                <i class="ni ni-badge text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    <div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0">
+            <h6>Table Laporan</h6>
+            {{#if message}}
+                <div class="alert alert-{{message.type}} alert-dismissible fade show w-25" role="alert">
+                    <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                    <span class="alert-text text-white"><strong>{{message.status}}</strong> {{message.message}}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                     </button>
-                </form>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-{{else}}
-<p>Tidak ada laporan</p>
-{{/if}}
+                </div>
+            {{/if}}
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+                {{#if stories}}
+                <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Isi Laporan</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID Laporan</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status Laporan</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tanggal Laporan</th>
+                    <th class="text-secondary opacity-7"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each stories}}
+                    <tr>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0 ps-3">{{reports}}</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">{{idReport}}</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">{{reportStatus}}</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">{{createdAt}}</p>
+                    </td>
+                    <td class="align-middle">
+                        <a href="/stories/edit/{{_id}}" class="text-success" data-toggle="tooltip" data-original-title="Edit user"> Edit </a>
+                        <a href="/stories/{{_id}}" type="submit" class="text-warning ps-2" data-toggle="tooltip" data-original-title="Edit user"> Delete </a>
+                    </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+                </table>
+                {{else}}
+                <h6 class="text-uppercase opacity-7 ps-4">Tidak ada laporan</h6>
+                {{/if}}
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
