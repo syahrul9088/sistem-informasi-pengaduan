@@ -19,11 +19,16 @@ router.get('/', ensureGuest, (req, res) => {
   })
 })
 
-// router.get('/setting', ensureAuth, async(req, res) => {
-//   res.render('setting', {
-//     layout: 'setting',
-//   })
-// })
+router.get('/setting', ensureAuth, async(req, res) => {
+  const {fullName, email, phoneNumber} = res.locals.user
+  // const getUser = await User.find({}).lean()
+  // console.log(getUser)
+  res.render('setting', {
+    fullName,
+    email,
+    phoneNumber
+  })
+})
 
 // @desc    Dashboard
 // @route   GET /dashboard
