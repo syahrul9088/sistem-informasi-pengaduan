@@ -1,0 +1,50 @@
+<form action="/auth/update-profile" method="POST">
+<div class="container-fluid py-6 ps-3">
+    <div class="row">
+    <div class="col-md-8">
+        <div class="card">
+        <div class="card-header pb-0">
+            <div class="col-md-5">
+            {{#if message}}
+                <div class="alert alert-{{message.type}} alert-dismissible fade show w-22" role="alert">
+                    <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                    <span class="alert-text text-white"><strong>{{message.status}}</strong> {{message.message}}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {{/if}}
+            </div>
+            <div class="d-flex align-items-center">
+            <p class="mb-0">Edit Profile</p>
+            <button type="submit" class="btn btn-primary btn-sm ms-auto">Save</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-uppercase text-sm">Informasi Pengguna</p>
+            <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Nama Lengkap</label>
+                <input class="form-control" name="fullName"  type="name" value="{{fullName}}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Email</label>
+                <input class="form-control" name="email" type="email" value="{{email}}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Nomor HP</label>
+                <input class="form-control" name="phoneNumber" type="text" value="{{phoneNumber}}">
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</form>

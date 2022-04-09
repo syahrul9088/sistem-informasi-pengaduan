@@ -6,28 +6,63 @@ const Story = require('../models/Story')
 const User = require('../models/User')
 
 router.get('/signup', ensureGuest, (req, res) => {
-  res.render('signup', {
-    layout: 'signup'
-  })
+  try {
+    res.render('signup', {
+      layout: 'signup'
+    })
+  } catch (err){
+    console.log(err);
+    res.render('error/500')
+  }
 })
 
 // @desc    Login/Landing page
 // @route   GET /
 router.get('/', ensureGuest, (req, res) => {
-  res.render('login', {
-    layout: 'login',
-  })
+  try {
+    res.render('login', {
+      layout: 'login',
+    })
+  } catch (err){
+    console.log(err)
+  }
 })
 
-router.get('/setting', ensureAuth, async(req, res) => {
-  const {fullName, email, phoneNumber} = res.locals.user
-  // const getUser = await User.find({}).lean()
-  // console.log(getUser)
-  res.render('setting', {
-    fullName,
-    email,
-    phoneNumber
-  })
+router.get('/settings', ensureAuth, async(req, res) => {
+  try {
+    const {fullName, password} = res.locals.user
+    res.render('settings', {
+      name: fullName,
+      password: password
+    })
+  } catch (err){
+    console.log(err);
+    res.render('error/500')
+  }
+})
+
+router.get('/settings/profile', ensureAuth, async(req, res) => {
+  try {
+
+    const getUser = await User.findOne({
+      _id: res.locals.user._id,
+    }).lean()
+
+    if(getUser){
+
+      const {fullName, phoneNumber, email} = getUser
+
+      res.render('profile', {
+        layout: 'settings',
+        fullName, 
+        phoneNumber, 
+        email
+      })
+    }
+  } catch (err){
+    console.log(err);
+    res.render('error/500')
+  }
 })
 
 // @desc    Dashboard

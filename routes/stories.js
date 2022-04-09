@@ -38,7 +38,7 @@ router.put('/:id', ensureAuth, async (req, res) => {
         new: true,
         runValidators: true,
       })
-
+      
       req.session.message = {
         type: 'success',
         status: 'Berhasil, ',

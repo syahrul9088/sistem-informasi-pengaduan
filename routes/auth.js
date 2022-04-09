@@ -21,13 +21,14 @@ router.get(
   }
 )
 
-router.post('/doLogin', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
 
   const {email, password} = req.body
+  
 
   User.findOne({email: email})
   .then(async(user) => {
-    if(!user){
+    if(!user || user.password == null){
       req.session.message = {
         type: 'danger',
         intro: 'Gagal, ',
@@ -35,6 +36,9 @@ router.post('/doLogin', async (req, res, next) => {
       }
       res.redirect('/')
     } else {
+
+      console.log(password, user.password)
+
       const passwordIsMatch = await bcrypt.compareSync(password, user.password);
       // console.log(passwordIsMatch, password, user.password)
       if(passwordIsMatch){
@@ -43,10 +47,8 @@ router.post('/doLogin', async (req, res, next) => {
           successRedirect: '/dashboard',
           failureRedirect: '/'
         })(req, res, next);
-        // console.log('password benar')
 
       } else {
-        // console.log('password salah')
         req.session.message = {
           type: 'danger',
           intro: 'Gagal, ',
@@ -57,6 +59,196 @@ router.post('/doLogin', async (req, res, next) => {
     }
   })
 });
+
+router.post('/update-profile', async (req, res) => {
+
+  try {
+
+    let user = await User.findById(res.locals.user._id).lean()
+
+    if (!user) {
+      return res.render('error/404')
+    } else {
+
+      const {email, phoneNumber} = req.body
+
+      const emailCheck = await User.findOne({
+        email: email
+      }).lean()
+
+      const phoneCheck = await User.findOne({
+        phoneNumber: phoneNumber
+      }).lean()
+
+      if(emailCheck && user.email != email){
+        req.session.message = {
+          type: 'danger',
+          status: 'Gagal, ',
+          message: 'Email telah digunakan'
+        }
+      } else if(phoneCheck && user.phoneNumber != phoneNumber){
+        req.session.message = {
+          type: 'danger',
+          status: 'Gagal, ',
+          message: 'Nomor HP telah digunakan'
+        }
+      } else {
+        user = await User.findOneAndUpdate({ _id: res.locals.user._id }, req.body, {
+          new: true,
+          runValidators: true,
+        })
+        
+        req.session.message = {
+          type: 'success',
+          status: 'Berhasil, ',
+          message: 'Update Profile Berhasil'
+        }
+      }
+      res.redirect('/settings/profile')
+    }
+  } catch (err) {
+    console.error(err)
+    return res.render('error/500')
+  }
+
+});
+
+router.post('/update-password', async (req, res) => {
+
+  try {
+
+    const {password} = res.locals.user
+
+    const {currentPassword, newPassword, newConfirmPassword} = req.body
+
+    if(password != null){
+      const passwordIsMatch = await bcrypt.compareSync(currentPassword, password);
+
+      if((passwordIsMatch)){
+        const saltRounds = 10;
+        const myPlaintextPassword = newPassword;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+        await User.findOneAndUpdate({ _id: res.locals.user._id }, {password: hash})
+        req.session.message = {
+          type: 'success',
+          status: 'Berhasil, ',
+          message: 'Password berhasil diubah'
+        }
+      } else if(!currentPassword || !newPassword || !newConfirmPassword){
+        req.session.message = {
+          type: 'danger',
+          status: 'Gagal, ',
+          message: 'Form tidak boleh kosong'
+        }
+      } else if(newConfirmPassword != newPassword){
+        req.session.message = {
+          type: 'danger',
+          status: 'Gagal, ',
+          message: 'Konfirmasi password tidak sesuai'
+       }
+      } else {
+        req.session.message = {
+          type: 'danger',
+          status: 'Gagal, ',
+          message: 'Password sekarang salah'
+        }
+      }
+    } else {
+      if(!newPassword || !newConfirmPassword){
+        req.session.message = {
+          type: 'danger',
+          status: 'Gagal, ',
+          message: 'Form tidak boleh kosong'
+        }
+      } else if (newPassword != newConfirmPassword){
+        req.session.message = {
+          type: 'danger',
+          status: 'Gagal, ',
+          message: 'Konfirmasi password tidak sesuai'
+        }
+      } else {
+        const saltRounds = 10;
+        const myPlaintextPassword = newPassword;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+        await User.findOneAndUpdate({ _id: res.locals.user._id }, {password: hash})
+        req.session.message = {
+          type: 'success',
+          status: 'Berhasil, ',
+          message: 'Password berhasil diubah'
+        }
+      }
+    }
+    res.redirect('/settings')
+  } catch (err) {
+    console.error(err)
+    return res.render('error/500')
+  }
+
+});
+
+router.post('/signup', async (req, res) => {
+  try {
+      const {email, phoneNumber, password, confirmPassword, fullName} = req.body
+
+      const isRegister = await User.findOne({
+          email: email
+      }).lean()
+
+      const phoneCheck = await User.findOne({
+          phoneNumber: phoneNumber
+      }).lean()
+
+      if(!email || !password || !fullName || !confirmPassword || !phoneNumber){
+          req.session.message = {
+              type: 'danger',
+              status: 'Gagal, ',
+              message: 'Form tidak boleh kosong'
+          }
+      } else if(password != confirmPassword){
+          req.session.message = {
+              type: 'danger',
+              status: 'Gagal, ',
+              message: 'Konfirmasi password tidak sesuai'
+          }
+      } else if(isRegister){
+          req.session.message = {
+              type: 'danger',
+              status: 'Gagal, ',
+              message: 'Email sudah terdaftar'
+          }
+      } else if(phoneCheck){ 
+          req.session.message = {
+              type: 'danger',
+              status: 'Gagal, ',
+              message: 'Nomor HP sudah terdaftar'
+          }
+      } else {
+          const saltRounds = 10;
+          const myPlaintextPassword = password;
+          const salt = bcrypt.genSaltSync(saltRounds);
+          const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+
+          await User.create({email: email, phoneNumber: phoneNumber, password: hash, fullName: fullName})
+          req.session.message = {
+              type: 'success',
+              status: 'Berhasil, ',
+              message: 'Silakan login.'
+          }
+      }
+      res.redirect('/signup')
+  } catch (err){
+      console.error(err)
+      req.session.message = {
+          type: 'danger',
+          intro: 'Error!, ',
+          message: 'Upps ada yang error'
+      }
+      res.render('/signup')
+  }
+
+})
 
 // @desc    Logout user
 // @route   /auth/logout

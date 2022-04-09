@@ -14,18 +14,6 @@ const UserSchema = new mongoose.Schema({
   googleId: {
     type: String,
   },
-  displayName: {
-    type: String,
-  },
-  firstName: {
-    type: String,
-  },
-  lastName: {
-    type: String,
-  },
-  image: {
-    type: String,
-  },
   password: {
     type: String
   },
