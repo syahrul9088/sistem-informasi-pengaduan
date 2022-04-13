@@ -60,6 +60,15 @@
                       </div>
                     </td>
                   </tr>
+                  <tr>
+                    <td class="w-30">
+                      <div class="d-flex px-2 py-1 align-items-center">
+                        <div class="ms-4">
+                          <a type="button" class="text-dark text-gradient" data-bs-toggle="modal" data-bs-target="#deleteAccount">Hapus Akun</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -67,6 +76,31 @@
     </div>
 </div>
 </div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-labelledby="deleteAccount" aria-hidden="true">
+      <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+          <form action="/auth/delete-account" method="POST">
+          <div class="modal-header">
+            <h6 class="modal-title" id="modal-title-default">Apakah kamu yakin?</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Akun ini akan dihapus dari database, kamu tidak akan dapat menggunakannya kembali. Jika ingin menggunakannya kembali kamu harus mendaftarnya terlebih dahulu.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn bg-gradient-primary">Delete</button>
+            <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 <div class="col-md-4">
     <div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-labelledby="updatePassword" aria-hidden="true">

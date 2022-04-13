@@ -113,6 +113,32 @@ router.post('/update-profile', async (req, res) => {
 
 });
 
+router.post('/delete-account', async (req, res) => {
+  try {
+    const idUser = res.locals.user._id
+    console.log(idUser)
+    if(idUser){
+      await User.remove({ _id: idUser })
+      req.session.message = {
+        type: 'success',
+        status: 'Berhasil, ',
+        message: 'Akun berhasil dihapus'
+      }
+      res.redirect('/')
+    } else {
+      req.session.message = {
+        type: 'success',
+        status: 'Error, ',
+        message: 'Upps ada yang error'
+      }
+      res.redirect('/settings')
+    }
+  } catch (err){
+    console.log(err)
+    return res.render('error/500')
+  }
+});
+
 router.post('/update-password', async (req, res) => {
 
   try {
