@@ -3,19 +3,27 @@ var randomize = require('randomatic');
 
 const UserSchema = new mongoose.Schema({
   fullName: {
-    type: String
+    type: String,
+    required: true,
+    trim: true,
   },
   phoneNumber: {
-    type: String
+    type: String,
+    required: true,
+    trim: true,
   },
   email: {
-    type: String
+    type: String,
+    required: true,
+    trim: true,
   },
   googleId: {
     type: String,
   },
   password: {
-    type: String
+    type: String,
+    required: true,
+    trim: true,
   },
   createdAt: {
     type: Date,

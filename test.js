@@ -1,6 +1,6 @@
-const a = null
+const a = 'asdasd'
 
-if(a){
+if(!a){
     console.log('1')
 } else {
     console.log('2')

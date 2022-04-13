@@ -31,8 +31,7 @@ const StorySchema = new mongoose.Schema({
     default: 'Belum diproses'
   },
   idReport: {
-    type: String,
-    default: `OK${randomize('A0', 5)}`
+    type: String
   },
   additional: {
     type: String

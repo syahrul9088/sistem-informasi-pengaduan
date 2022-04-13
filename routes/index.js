@@ -65,6 +65,16 @@ router.get('/settings/profile', ensureAuth, async(req, res) => {
   }
 })
 
+router.get('/report', async (req, res) => {
+  try {
+    res.render('report', {
+      layout: 'report',
+    })
+  } catch (err){
+    console.log(err)
+  }
+})
+
 // @desc    Dashboard
 // @route   GET /dashboard
 router.get('/dashboard', ensureAuth, async (req, res) => {

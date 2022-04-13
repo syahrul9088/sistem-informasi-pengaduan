@@ -14,15 +14,6 @@
       <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
         <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
           <div class="card z-index-0">
-             {{#if message}}
-              <div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
-                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-                <span class="alert-text text-white"><strong>{{message.status}}</strong> {{message.message}}</span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            {{/if}}
             <div class="card-header text-center pt-4">
               <h5>Daftar dengan</h5>
             </div>
@@ -52,6 +43,15 @@
               </div>
             </div>
             <div class="card-body">
+              {{#if message}}
+              <div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
+                <span class="alert-icon"><i class="ni ni-like-2"></i></span>
+                <span class="alert-text text-white"><strong>{{message.status}}</strong> {{message.message}}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {{/if}}
               <form role="form" action="/auth/signup" method="POST">
                 <div class="mb-3">
                   <input type="text" name="fullName" class="form-control" placeholder="Nama Lengkap" aria-label="Name">

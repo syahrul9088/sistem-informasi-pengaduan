@@ -1,7 +1,9 @@
 const express = require('express')
 const passport = require('passport')
 const router = express.Router()
+var randomize = require('randomatic');
 const User = require('../models/User')
+const Story = require('../models/Story')
 const bcrypt = require('bcryptjs');
 
 // @desc    Auth with Google
@@ -20,6 +22,14 @@ router.get(
     res.redirect('/dashboard')
   }
 )
+
+router.post('/public', async (req, res) => {
+  try {
+    
+  } catch (err){
+    console.log(err);
+  }
+});
 
 router.post('/login', async (req, res, next) => {
 
@@ -271,9 +281,42 @@ router.post('/signup', async (req, res) => {
           intro: 'Error!, ',
           message: 'Upps ada yang error'
       }
-      res.render('/signup')
+      res.redirect('/signup')
   }
+})
 
+router.post('/report', async (req, res) => {
+  try {
+    const reportId = `OK${randomize('A0', 5)}`
+    const {fullName, phoneNumber, address, reports} = req.body
+
+    console.log(fullName, phoneNumber, address, reports)
+
+    if(fullName || phoneNumber || address || reports){
+      await Story.create({fullName: fullName, phoneNumber: phoneNumber, address: address, idReport: reportId, reports: reports})
+      .then(res => {
+        req.session.message = {
+          type: 'success',
+          status: 'Berhasil, ',
+          message: `Pengaduan berhasil dibuat dengan ID Laporan ${reportId}`
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    } else {
+      req.session.message = {
+        type: 'danger',
+        status: 'Gagal, ',
+        message: `Pengaduan gagal dibuat`
+      }
+    }
+
+    res.redirect('/report')
+
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 // @desc    Logout user
