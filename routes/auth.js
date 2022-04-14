@@ -319,6 +319,35 @@ router.post('/report', async (req, res) => {
   }
 })
 
+router.post('/track', async(req, res) => {
+  try {
+    const {reportId} = req.body
+    let findIdReport = await Story.findOne({idReport: reportId}).lean()
+    if(findIdReport){
+      req.session.message = {
+        type: 'success',
+        status: 'Berhasil, ',
+        message: `ID Laporan ditemukan`,
+        fullName: findIdReport.fullName,
+        reportStatus: findIdReport.reportStatus,
+        phoneNumber: findIdReport.phoneNumber,
+        address: findIdReport.address,
+        idReport: findIdReport.idReport,
+        reports: findIdReport.reports,
+        additional: findIdReport.additional
+      }
+    } else {
+      req.session.message = {
+        type: 'danger',
+        status: 'Gagal, ',
+        message: `ID Laporan tidak ditemukan`
+      }
+    }
+    res.redirect('/track')
+  } catch (error) {
+    console.log(error)
+  }
+});
 // @desc    Logout user
 // @route   /auth/logout
 router.get('/logout', (req, res) => {

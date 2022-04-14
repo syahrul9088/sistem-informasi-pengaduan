@@ -75,6 +75,16 @@ router.get('/report', async (req, res) => {
   }
 })
 
+router.get('/track', async (req, res) => {
+  try {
+    res.render('track', {
+      layout: 'track',
+    })
+  } catch (err){
+    console.log(err)
+  }
+})
+
 // @desc    Dashboard
 // @route   GET /dashboard
 router.get('/dashboard', ensureAuth, async (req, res) => {

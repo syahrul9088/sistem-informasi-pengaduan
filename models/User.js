@@ -9,8 +9,6 @@ const UserSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: String,
-    required: true,
-    trim: true,
   },
   email: {
     type: String,
@@ -21,9 +19,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   password: {
-    type: String,
-    required: true,
-    trim: true,
+    type: String
   },
   createdAt: {
     type: Date,
